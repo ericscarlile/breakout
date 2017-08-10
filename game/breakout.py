@@ -2,7 +2,7 @@ import pygame
 
 from game import *
 from game.scenes import *
-from game.shared import GameConstants
+from game.shared.game_constants import GameConstants
 
 
 class Breakout:
@@ -15,7 +15,7 @@ class Breakout:
 
         self.__pad = Pad((0, 0), 0)
         self.__balls = [
-            Ball((0, 0), 0, self)
+            Ball((0, 0), pygame.image.load(GameConstants.SPRITE_BALL), self)
         ]
 
         pygame.init()
