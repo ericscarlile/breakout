@@ -50,34 +50,37 @@ class Breakout:
             pygame.display.update()
 
     def change_scene(self, scene):
-        pass
+        self.__current_scene = scene
 
     def get_level(self):
-        pass
+        return self.__level
 
     def get_score(self):
-        pass
+        return self.__score
 
     def increase_score(self, score):
-        pass
+        self.__score += score
 
     def get_lives(self):
-        pass
+        return self.__lives
 
     def get_balls(self):
-        pass
+        return self.__balls
 
     def get_pad(self):
-        pass
+        return self.__pad
 
     def play_sound(self, sound_clip):
-        pass
+        sound = self.__sounds[sound_clip]
+
+        sound.stop()
+        sound.play()
 
     def reduce_lives(self):
-        pass
+        self.__lives -= 1
 
     def increase_lives(self):
-        pass
+        self.__lives += 1
 
     def reset(self):
         pass
