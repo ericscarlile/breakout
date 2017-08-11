@@ -29,10 +29,59 @@ class Ball(GameObject):
         self.reset_speed()
 
     def change_direction(self, game_object):
-        pass
+        position = self.get_position()
+        size = self.get_size()
+        object_position = game_object.get_position()
+        object_size = game_object.get_size()
+
+        if position[1] > object_position[1] \
+                and position[1] < object_position[1] + object_size[1] \
+                and position[0] > object_position[0] \
+                and position[0] < object_position[0] + object_size[1]:
+            self.set_position((position[0], object_position[1] + object_size[1]))
+            self.__direction[1] *= -1
+
+        elif position[1] + size[1] > object_position[1] \
+                and position[1] + size[1] < object_position[1] + object_size[1] \
+                and position[0] > object_position[0] \
+                and position[0] < object_position[0] + object_size[0]:
+            self.set_position((position[0], object_position[1] - object_size[1]))
+            self.__direction[1] *= -1
+
+        elif position[0] + size[0] > object_position[0] \
+                and position[0] + size[0] < object_position[0] + object_size[0]:
+            self.set_position((object_position[0] - size[0], position[1]))
+            self.__direction[0] *= -1
+
+        else:
+            self.set_position((object_position[0] + object_size[0], position[1]))
+            self.__direction[0] *= -1
+            self.__direction[1] *= -1
 
     def update_position(self):
-        self.set_position(pygame.mouse.get_pos())
+        position = self.get_position()
+        size = self.get_size()
+
+        new_position = [position[0] + (self.__increment[0] * self.__speed) * self.__direction[0],
+                        position[1] + (self.__increment[1] * self.__speed) * self.__direction[1]]
+
+        if new_position[0] + size[0] >= GameConstants.SCREEN_SIZE[0]:
+            self.__direction[0] *= -1
+            new_position = [GameConstants.SCREEN_SIZE[0] - size[0], new_position[1]]
+
+        if new_position[0] <= 0:
+            self.__direction[0] *= -1
+            new_position = [0, new_position[1]]
+
+        if new_position[1] + size[1] >= GameConstants.SCREEN_SIZE[1]:
+            self.__direction[1] *= -1
+            new_position = [new_position[0], GameConstants.SCREEN_SIZE[1] - size[1]]
+
+        if new_position[1] <= 0:
+            self.__direction[1] *= -1
+            new_position = [new_position[0], 0]
+
+        self.set_position(new_position)
 
     def is_ball_dead(self):
         pass
